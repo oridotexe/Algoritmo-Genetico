@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Random;
 
 class GeneticAlgorithm {
-    private int populationSize; // Size of the population
-    private int maxGenerations; // Maximum number of generations
-    private double mutationRate; // Probability of mutation
-    private double crossoverRate; // Probability of crossover
-    private MarkowitzProblem problem; // The Markowitz problem instance
-    private Random random; // Random number generator
+    private int populationSize;
+    private int maxGenerations; 
+    private double mutationRate;
+    private double crossoverRate; 
+    private MarkowitzProblem problem; 
+    private Random random; 
 
     public GeneticAlgorithm(int populationSize, int maxGenerations, double mutationRate, double crossoverRate,
             MarkowitzProblem problem) {
@@ -23,7 +23,6 @@ class GeneticAlgorithm {
         this.random = new Random();
     }
 
-    // Main optimization method
     public List<double[]> optimize() {
         List<double[]> population = initializePopulation();
         for (int generation = 0; generation < maxGenerations; generation++) {
@@ -34,7 +33,6 @@ class GeneticAlgorithm {
         return population;
     }
 
-    // Initialize the population with random weights
     private List<double[]> initializePopulation() {
         List<double[]> population = new ArrayList<>();
         for (int i = 0; i < populationSize; i++) {
@@ -52,7 +50,6 @@ class GeneticAlgorithm {
         return population;
     }
 
-    // Create offspring from the current population
     private List<double[]> createOffspring(List<double[]> population) {
         List<double[]> offspring = new ArrayList<>();
         for (int i = 0; i < populationSize; i += 2) {
@@ -65,7 +62,6 @@ class GeneticAlgorithm {
         return offspring;
     }
 
-    // Perform crossover between two parents to create two children
     private double[][] crossover(double[] parent1, double[] parent2) {
         double[] child1 = new double[parent1.length];
         double[] child2 = new double[parent2.length];
@@ -102,15 +98,13 @@ class GeneticAlgorithm {
         return individual;
     }
 
-    // Select the next generation by choosing the best individuals
     private List<double[]> selectNextGeneration(List<double[]> population) {
         Collections.sort(population, (a, b) -> Double.compare(fitnessScore(b), fitnessScore(a)));
         return new ArrayList<>(population.subList(0, populationSize));
     }
 
-    // Calculate the fitness score of an individual (return/variance)
     private double fitnessScore(double[] individual) {
         double[] fitness = problem.fitness(individual);
-        return fitness[0] / fitness[1]; // Return / Variance
+        return fitness[0] / fitness[1];
     }
 }
